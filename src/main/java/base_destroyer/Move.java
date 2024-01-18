@@ -1,7 +1,5 @@
 package base_destroyer;
 import base_destroyer.base.Base;
-import base_destroyer.soldier.Soldier;
-import base_destroyer.soldier.SoldierView;
 
 public class Move {
     private Base selected;

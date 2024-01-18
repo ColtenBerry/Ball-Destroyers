@@ -1,20 +1,14 @@
 package base_destroyer;
 
 import base_destroyer.base.Base;
-import base_destroyer.base.BaseView;
 import base_destroyer.soldier.NewSoldier;
-import base_destroyer.soldier.SoldierView;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.Button;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 public class Controller {
@@ -44,12 +38,9 @@ public class Controller {
     @FXML
     private Pane gamePane;
     private ArrayList<Base> bases = new ArrayList<>();
-    private ArrayList<BaseView>baseViews = new ArrayList<>();
     private ArrayList<NewSoldier> soldiers = new ArrayList<>();
-    private ArrayList<SoldierView> soldierViews = new ArrayList<>();
-    private Point base1Point = new Point(20, 20);
-    private Point base2Point = new Point(580, 580);
-
+    private Point2D base1Point = new Point2D.Double(20, 20);
+    private Point2D base2Point = new Point2D.Double(580, 580);
     public void initialize() {
         spawnBase(base1Point, Allegiance.PLAYER, 200);
         spawnBase(base2Point, Allegiance.ENEMY, 200);
@@ -60,23 +51,23 @@ public class Controller {
         clock.start();
     }
     private void updateViews() {
-        for (BaseView bs: baseViews) {
-            bs.update();
+        for (Base b: bases) {
+            b.update();
         }
         //problem with soldiers.move?
         for (NewSoldier s: soldiers) {
-//            s.move();
-        }
-        for (SoldierView ss: soldierViews) {
-            ss.update();
+            s.move();
+            s.update();
+            if (s.getPoint().equals(s.getDestination())) {
+                System.out.println("Delete!");
+                soldiers.remove(s);
+            }
         }
     }
-    private void spawnBase(Point point, Allegiance allegiance, int garrison) {
+    private void spawnBase(Point2D point, Allegiance allegiance, int garrison) {
         Base base = new Base(allegiance, point, garrison);
         bases.add(base);
-        BaseView baseView = new BaseView(base);
-        baseViews.add(baseView);
-        gamePane.getChildren().add(baseView);
+        gamePane.getChildren().add(base);
     }
     @FXML
     private Button soldierPrint;
@@ -84,7 +75,6 @@ public class Controller {
     private void buttonPress() {
             System.out.println("Press");
             System.out.println(soldiers);
-            System.out.println(soldierViews);
     }
     @FXML
     public void click(MouseEvent event) {
@@ -99,24 +89,27 @@ public class Controller {
 //        gamePane.getChildren().add(triangle);
 //        Point spot = new Point(event.getX(), event.getY());
 //        Soldier s = new Soldier(spot, Allegiance.PLAYER);
-//        SoldierView sv = new SoldierView(s);
 //        gamePane.getChildren().add(sv);
     }
-    private Base selectBase(Point point) {
+    private Base selectBase(Point2D point) {
+        System.out.println(bases.size());
         for (Base base : bases) {
             if ((base.getPoint().getX() - base.getRadius() < point.getX() && point.getX() < base.getPoint().getX() + base.getRadius())
                     && (base.getPoint().getY() - base.getRadius() < point.getY() && point.getY() < base.getPoint().getY() + base.getRadius())) {
                 return base;
             }
         }
+        System.out.println(bases.size());
+        System.out.println(bases);
         return null;
     }
     private Base selected;
     private Base target;
     @FXML
     public void action(MouseEvent event) {
-        Point eventPoint = new Point(event.getX(), event.getY());
-        System.out.println(bases);
+//        System.out.println("X: " + event.getX());
+//        System.out.println("Y: " + event.getY());
+        Point2D eventPoint = new Point2D.Double(event.getX(), event.getY());
         //if there is no selected, acquire selected
         if (selected == null) {
             selected = selectBase(eventPoint);
@@ -135,7 +128,7 @@ public class Controller {
             if (target.getAllegiance() != selected.getAllegiance()) {
                 System.out.println("Attack");
                 move.attack();
-                createSoldier(selected.getPoint(), selected.getAllegiance(), target.getPoint());
+//                createSoldier(selected.getPoint(), selected.getAllegiance(), target.getPoint());
             }
             //reinforce
             else {
@@ -147,20 +140,19 @@ public class Controller {
             target = null;
         }
     }
-    private void createSoldier(Point point, Allegiance allegiance, Point target) {
+    private void createSoldier(Point2D point, Allegiance allegiance, Point2D target) {
         NewSoldier s = new NewSoldier(point, allegiance, target);
-        SoldierView sv = new SoldierView(s);
         //Problem with soldiers. Removing the following line fixes the problem
         soldiers.add(s);
-        soldierViews.add(sv);
-        gamePane.getChildren().add(sv);
+        gamePane.getChildren().add(s);
     }
-    private Point randomPoint() {
+    private Point2D randomPoint() {
         int radius = 20;
         java.util.Random random = new java.util.Random();
         int x = random.nextInt(radius, 600 - radius);
         int y = random.nextInt(radius, 600 - radius);
-        return new Point(x, y);
+        return new Point2D.Double(x, y) {
+        };
     }
 
 

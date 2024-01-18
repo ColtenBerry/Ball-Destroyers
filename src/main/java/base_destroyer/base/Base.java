@@ -1,20 +1,46 @@
 package base_destroyer.base;
 
 import base_destroyer.Allegiance;
-import base_destroyer.Point;
+import javafx.scene.Parent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
-public class Base {
-    private final Point point;
+import java.awt.*;
+import java.awt.geom.Point2D;
+
+public class Base extends Parent {
+    private final Point2D point;
     private final int radius = 20;
     private int garrison;
     private Allegiance allegiance;
     private int garrisonUpdateRate = 1;
-    public Base(Allegiance allegiance, Point point, int garrison) {
+    private Circle circle;
+    private Text text;
+    public Base(Allegiance allegiance, Point2D point, int garrison) {
         this.allegiance = allegiance;
         this.point = point;
         this.garrison = garrison;
+        circle = new Circle();
+        circle.setFill(allegiance.getColor());
+        circle.setStroke(Color.BLACK);
+        circle.setRadius(radius);
+        circle.setCenterX(point.getX());
+        circle.setCenterY(point.getY());
+        getChildren().add(circle);
+        text = new Text(Integer.toString(garrison));
+        text.setX(point.getX() - radius / 2);
+        text.setY(point.getY());
+        text.setTextAlignment(TextAlignment.CENTER);
+        getChildren().add(text);
+
     }
-    public Point getPoint() {
+    public void update() {
+        circle.setFill(allegiance.getColor());
+        text.setText(Integer.toString(garrison));
+    }
+    public Point2D getPoint() {
         return point;
     }
     public int getRadius() {
