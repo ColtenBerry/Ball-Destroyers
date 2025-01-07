@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="pane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.basedestroyers.DifficultyMenuController">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="100.0" layoutY="50.0" prefHeight="100.0" prefWidth="400.0" text="Game Type">
+         <font>
+            <Font size="39.0" />
+         </font>
+      </Label>
+      <Button fx:id="story" layoutX="124.0" layoutY="300.0" mnemonicParsing="false" onAction="#playStory" prefHeight="25.0" prefWidth="67.0" text="Story" />
+      <Button fx:id="custom" layoutX="414.0" layoutY="300.0" mnemonicParsing="false" onAction="#playCustom" text="Custom" />
+   </children>
+</AnchorPane>

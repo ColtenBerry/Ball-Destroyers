@@ -1,4 +1,4 @@
-module com.example.base_destroyers {
+module com.example.basedestroyers {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
@@ -10,10 +10,9 @@ module com.example.base_destroyers {
     requires org.kordamp.bootstrapfx.core;
 //    requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
-    requires java.desktop;
 
-    opens base_destroyer to javafx.fxml;
-    exports base_destroyer;
-    exports base_destroyer.map;
-    opens base_destroyer.map to javafx.fxml;
+    opens com.example.basedestroyers to javafx.fxml;
+    exports com.example.basedestroyers;
+    exports com.example.basedestroyers.AI;
+    opens com.example.basedestroyers.AI to javafx.fxml;
 }
