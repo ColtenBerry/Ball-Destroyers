@@ -269,8 +269,8 @@ public class GameController {
         double x = e.getX();
         double y = e.getY();
         if (baseEditor) {
-            System.out.println(x);
-            System.out.println(y);
+//            System.out.println(x);
+//            System.out.println(y);
             Base b = new Base(new Point2D(x, y), Faction.PLAYER, 10);
             game.getBases().add(b);
             gamePane.getChildren().add(b);
